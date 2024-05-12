@@ -27,6 +27,7 @@ async function run() {
 
     const allBlogsCollection=client.db('eblog').collection('allblogs');
     const usersCollection=client.db('eblog').collection('users');
+    const wishlistCollection=client.db('eblog').collection('wishlist');
 
    
 
@@ -46,12 +47,24 @@ async function run() {
 
     //user route
     app.post('/user',async(req,res)=>{
-        const blogdata=req.body;
-        const result=await usersCollection.insertOne(blogdata);
+        const user=req.body;
+        const result=await usersCollection.insertOne(user);
         res.send(result);
      });
 
     //wishlist route
+    app.post('/wishlist',async(req,res)=>{
+      const user=req.body;
+      const result=await wishlistCollection.insertOne(user);
+      res.send(result);
+   });
+
+   app.get('/wishlist',async(req,res)=>{
+    const cursor= wishlistCollection.find();
+    const result = await cursor.toArray();
+    res.send(result);
+});
+
 
     //comment route
 
