@@ -26,18 +26,35 @@ async function run() {
     await client.connect();
 
     const allBlogsCollection=client.db('eblog').collection('allblogs');
+    const usersCollection=client.db('eblog').collection('users');
 
+   
+
+    //all blogs route
     app.get('/allblogs',async(req,res)=>{
         const cursor= allBlogsCollection.find();
         const result = await cursor.toArray();
         res.send(result);
     });
-    
+
     app.post('/allblogs',async(req,res)=>{
        const blogdata=req.body;
        const result=await allBlogsCollection.insertOne(blogdata);
        res.send(result);
     });
+
+
+    //user route
+    app.post('/user',async(req,res)=>{
+        const blogdata=req.body;
+        const result=await usersCollection.insertOne(blogdata);
+        res.send(result);
+     });
+
+    //wishlist route
+
+    //comment route
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
